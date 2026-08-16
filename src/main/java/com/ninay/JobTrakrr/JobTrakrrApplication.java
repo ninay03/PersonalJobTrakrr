@@ -8,6 +8,7 @@ public class JobTrakrrApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(JobTrakrrApplication.class, args);
+		System.out.println("System started succwssfully");
 	}
 
 }

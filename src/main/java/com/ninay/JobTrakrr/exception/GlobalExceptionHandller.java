@@ -1,6 +1,7 @@
 package com.ninay.JobTrakrr.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -65,6 +66,14 @@ public class GlobalExceptionHandller {
         response.setErrors(null);
 
         return response;
+    }
+    @ExceptionHandler(InvalidStatusTransitionException.class)
+    public ResponseEntity<String> handleInvalidStatusTransition(
+            InvalidStatusTransitionException ex) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
     }
 
 }

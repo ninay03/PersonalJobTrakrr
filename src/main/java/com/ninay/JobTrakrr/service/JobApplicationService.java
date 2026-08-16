@@ -3,6 +3,7 @@ package com.ninay.JobTrakrr.service;
 import com.ninay.JobTrakrr.dto.JobApplicationRequest;
 import com.ninay.JobTrakrr.dto.JobApplicationResponse;
 import com.ninay.JobTrakrr.exception.ApplicationNotFound;
+import com.ninay.JobTrakrr.exception.InvalidStatusTransitionException;
 import com.ninay.JobTrakrr.model.ApplicationStatus;
 import com.ninay.JobTrakrr.model.JobApplication;
 import com.ninay.JobTrakrr.repository.JobApplicationRepo;
@@ -117,7 +118,12 @@ public class JobApplicationService {
         ApplicationStatus currentStatus = application.getStatus();
 
         if (!isValidTransition(currentStatus, newStatus)) {
-            throw new RuntimeException("Invalid status transition");
+            throw new InvalidStatusTransitionException(
+                    "Invalid status transition from "
+                            + currentStatus
+                            + " to "
+                            + newStatus
+            );
         }
 
         application.setStatus(newStatus);
