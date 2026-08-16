@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JobTrakrr</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <h1>JobTrakrr</h1>
+                <span>Career Tracker</span>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="#dashboard" class="nav-item active">
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="#applications" class="nav-item">
+                    <span>Applications</span>
+                </a>
+
+                <a href="#interviews" class="nav-item">
+                    <span>Interviews</span>
+                </a>
+
+            </nav>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Dashboard -->
+            <section id="dashboard">
+
+                <header class="top-bar">
+
+                    <div>
+                        <h2>Dashboard</h2>
+                        <p>Track and manage your job applications.</p>
+                    </div>
+
+                    <button id="addApplicationBtn" class="primary-btn">
+                        + Add Application
+                    </button>
+
+                </header>
+
+
+                <!-- Statistics -->
+                <section class="statistics-section">
+
+                    <div class="stat-card">
+                        <span class="stat-label">Total Applications</span>
+                        <h3 id="totalApplications">0</h3>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-label">Applied</span>
+                        <h3 id="appliedApplications">0</h3>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-label">Interviews</span>
+                        <h3 id="interviewApplications">0</h3>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-label">Offers</span>
+                        <h3 id="offerApplications">0</h3>
+                    </div>
+
+                </section>
+
+            </section>
+
+
+            <!-- Applications -->
+            <section id="applications" class="applications-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Recent Applications</h2>
+                        <p>Your latest job applications.</p>
+                    </div>
+
+                    <div class="application-actions">
+
+                        <input type="text" id="searchInput" placeholder="Search applications...">
+
+                        <select id="statusFilter">
+
+                            <option value="">All Status</option>
+                            <option value="SAVED">Saved</option>
+                            <option value="APPLIED">Applied</option>
+                            <option value="SCREENING">Screening</option>
+                            <option value="INTERVIEW">Interview</option>
+                            <option value="OFFER">Offer</option>
+                            <option value="REJECTED">Rejected</option>
+                            <option value="WITHDRAWN">Withdrawn</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Applications Table -->
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Company</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Deadline</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="applicationsTableBody">
+
+                            <!-- Applications will be loaded using JavaScript -->
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- Interviews -->
+            <section id="interviews" class="applications-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Interviews</h2>
+                        <p>Track and manage your upcoming interviews.</p>
+                    </div>
+
+                    <button id="addInterviewBtn" class="primary-btn">
+                        + Add Interview
+                    </button>
+
+                </div>
+
+
+                <!-- Interviews Table -->
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Company</th>
+                                <th>Role</th>
+                                <th>Interview Type</th>
+                                <th>Date</th>
+                                <th>Outcome</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="interviewsTableBody">
+
+                            <!-- Interviews will be loaded using JavaScript -->
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- Add Application Modal -->
+
+    <div id="applicationModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Add Application</h2>
+                    <p>Add a new job application.</p>
+                </div>
+
+                <button id="closeModalBtn" class="close-btn">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="applicationForm">
+
+                <div class="form-group">
+
+                    <label for="company">
+                        Company
+                    </label>
+
+                    <input type="text" id="company" name="company" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="role">
+                        Role
+                    </label>
+
+                    <input type="text" id="role" name="role" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="jobUrl">
+                        Job URL
+                    </label>
+
+                    <input type="url" id="jobUrl" name="jobUrl" placeholder="https://...">
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="status">
+                            Status
+                        </label>
+
+                        <select id="status" name="status">
+
+                            <option value="SAVED">
+                                Saved
+                            </option>
+
+                            <option value="APPLIED">
+                                Applied
+                            </option>
+
+                            <option value="SCREENING">
+                                Screening
+                            </option>
+
+                            <option value="INTERVIEW">
+                                Interview
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="deadline">
+                            Deadline
+                        </label>
+
+                        <input type="date" id="deadline" name="deadline">
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="resumeUrl">
+                        Resume URL
+                    </label>
+
+                    <input type="url" id="resumeUrl" name="resumeUrl" placeholder="https://...">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="notes">
+                        Notes
+                    </label>
+
+                    <textarea id="notes" name="notes" rows="4" placeholder="Add notes..."></textarea>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button type="button" id="cancelApplicationBtn" class="secondary-btn">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="primary-btn">
+                        Save Application
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- View Application Modal -->
+
+    <div id="viewApplicationModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Application Details</h2>
+                    <p>View application information.</p>
+                </div>
+
+                <button id="closeViewModalBtn" class="close-btn">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="form-group">
+                <label>Company</label>
+                <div id="viewCompany">-</div>
+            </div>
+
+
+            <div class="form-group">
+                <label>Role</label>
+                <div id="viewRole">-</div>
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>Current Status</label>
+
+                    <div id="viewStatus">-</div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Applied Date</label>
+
+                    <div id="viewAppliedDate">-</div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="newStatus">
+                    Change Status
+                </label>
+
+                <select id="newStatus">
+
+                    <option value="">
+                        Select Status
+                    </option>
+
+                    <option value="SAVED">
+                        Saved
+                    </option>
+
+                    <option value="APPLIED">
+                        Applied
+                    </option>
+
+                    <option value="SCREENING">
+                        Screening
+                    </option>
+
+                    <option value="INTERVIEW">
+                        Interview
+                    </option>
+
+                    <option value="OFFER">
+                        Offer
+                    </option>
+
+                    <option value="REJECTED">
+                        Rejected
+                    </option>
+
+                    <option value="WITHDRAWN">
+                        Withdrawn
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+                <label>Job URL</label>
+                <div id="viewJobUrl">-</div>
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label>Deadline</label>
+                    <div id="viewDeadline">-</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Resume URL</label>
+                    <div id="viewResumeUrl">-</div>
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+                <label>Notes</label>
+                <div id="viewNotes">-</div>
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label>Created At</label>
+                    <div id="viewCreatedAt">-</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Updated At</label>
+                    <div id="viewUpdatedAt">-</div>
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button type="button" id="editApplicationBtn" class="primary-btn">
+                    Edit Application
+                </button>
+
+                <button type="button" id="updateStatusBtn" class="primary-btn">
+                    Update Status
+                </button>
+
+                <button type="button" id="deleteApplicationBtn" class="secondary-btn">
+                    Delete Application
+                </button>
+
+                <button type="button" id="closeViewApplicationBtn" class="secondary-btn">
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Edit Application Modal -->
+
+    <div id="editApplicationModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Edit Application</h2>
+                    <p>Update application information.</p>
+                </div>
+
+                <button id="closeEditModalBtn" class="close-btn">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="editApplicationForm">
+
+                <input type="hidden" id="editApplicationId">
+
+
+                <div class="form-group">
+
+                    <label for="editCompany">
+                        Company
+                    </label>
+
+                    <input type="text" id="editCompany" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editRole">
+                        Role
+                    </label>
+
+                    <input type="text" id="editRole" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editJobUrl">
+                        Job URL
+                    </label>
+
+                    <input type="url" id="editJobUrl" placeholder="https://...">
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="editAppliedDate">
+                            Applied Date
+                        </label>
+
+                        <input type="date" id="editAppliedDate">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="editDeadline">
+                            Deadline
+                        </label>
+
+                        <input type="date" id="editDeadline">
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editResumeUrl">
+                        Resume URL
+                    </label>
+
+                    <input type="url" id="editResumeUrl" placeholder="https://...">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editNotes">
+                        Notes
+                    </label>
+
+                    <textarea id="editNotes" rows="4" placeholder="Add notes..."></textarea>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button type="button" id="cancelEditBtn" class="secondary-btn">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="primary-btn">
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- Add Interview Modal -->
+    <!-- ========================= -->
+
+    <div id="interviewModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Add Interview</h2>
+                    <p>Add an interview round for an application.</p>
+                </div>
+
+                <button type="button" id="closeInterviewModalBtn" class="close-btn">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="interviewForm">
+
+                <div class="form-group">
+
+                    <label for="interviewApplication">
+                        Application
+                    </label>
+
+                    <select id="interviewApplication" required>
+
+                        <option value="">
+                            Select Application
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="roundName">
+                        Round Name
+                    </label>
+
+                    <input type="text" id="roundName" placeholder="Technical Round" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="interviewDate">
+                        Date
+                    </label>
+
+                    <input type="date" id="interviewDate" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="interviewOutcome">
+                        Outcome
+                    </label>
+
+                    <input type="text" id="interviewOutcome" placeholder="Pending">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="interviewNotes">
+                        Notes
+                    </label>
+
+                    <textarea id="interviewNotes" rows="4" placeholder="Add interview notes..."></textarea>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button type="button" id="cancelInterviewBtn" class="secondary-btn">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="primary-btn">
+                        Save Interview
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- View Interview Modal -->
+    <!-- ========================= -->
+
+    <div id="viewInterviewModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Interview Details</h2>
+                    <p>View interview round information.</p>
+                </div>
+
+                <button type="button" id="closeViewInterviewModalBtn" class="close-btn">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Company</label>
+
+                <div id="viewInterviewCompany">
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Role</label>
+
+                <div id="viewInterviewRole">
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Round Name</label>
+
+                <div id="viewInterviewRoundName">
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>Date</label>
+
+                    <div id="viewInterviewDate">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Outcome</label>
+
+                    <div id="viewInterviewOutcome">
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Notes</label>
+
+                <div id="viewInterviewNotes">
+                    -
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button type="button" id="editInterviewBtn" class="primary-btn">
+                    Edit Interview
+                </button>
+
+                <button type="button" id="deleteInterviewBtn" class="secondary-btn">
+                    Delete Interview
+                </button>
+
+                <button type="button" id="closeViewInterviewBtn" class="secondary-btn">
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- Edit Interview Modal -->
+    <!-- ========================= -->
+
+    <div id="editInterviewModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>Edit Interview</h2>
+                    <p>Update interview round information.</p>
+                </div>
+
+                <button type="button" id="closeEditInterviewModalBtn" class="close-btn">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="editInterviewForm">
+
+                <input type="hidden" id="editInterviewId">
+
+
+                <div class="form-group">
+
+                    <label>Application</label>
+
+                    <div id="editInterviewApplication">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editRoundName">
+                        Round Name
+                    </label>
+
+                    <input type="text" id="editRoundName" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editInterviewDate">
+                        Date
+                    </label>
+
+                    <input type="date" id="editInterviewDate" required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editInterviewOutcome">
+                        Outcome
+                    </label>
+
+                    <input type="text" id="editInterviewOutcome">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editInterviewNotes">
+                        Notes
+                    </label>
+
+                    <textarea id="editInterviewNotes" rows="4"></textarea>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button type="button" id="cancelEditInterviewBtn" class="secondary-btn">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="primary-btn">
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
